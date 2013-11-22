@@ -1,0 +1,43 @@
+<h1>Listing markers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>First</th>
+      <th>Last</th>
+      <th>Email</th>
+      <th>Abbr</th>
+      <th>Scaling</th>
+      <th>Shift</th>
+      <th>Admin</th>
+      <th>Encrypted password</th>
+      <th>Salt</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @markers.each do |marker| %>
+      <tr>
+        <td><%= marker.first %></td>
+        <td><%= marker.last %></td>
+        <td><%= marker.email %></td>
+        <td><%= marker.abbr %></td>
+        <td><%= marker.scaling %></td>
+        <td><%= marker.shift %></td>
+        <td><%= marker.admin %></td>
+        <td><%= marker.encrypted_password %></td>
+        <td><%= marker.salt %></td>
+        <td><%= link_to 'Show', marker %></td>
+        <td><%= link_to 'Edit', edit_marker_path(marker) %></td>
+        <td><%= link_to 'Destroy', marker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Marker', new_marker_path %>

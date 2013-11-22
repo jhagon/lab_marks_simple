@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First:</strong>
+  <%= @marker.first %>
+</p>
+
+<p>
+  <strong>Last:</strong>
+  <%= @marker.last %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @marker.email %>
+</p>
+
+<p>
+  <strong>Abbr:</strong>
+  <%= @marker.abbr %>
+</p>
+
+<p>
+  <strong>Scaling:</strong>
+  <%= @marker.scaling %>
+</p>
+
+<p>
+  <strong>Shift:</strong>
+  <%= @marker.shift %>
+</p>
+
+<p>
+  <strong>Admin:</strong>
+  <%= @marker.admin %>
+</p>
+
+<p>
+  <strong>Encrypted password:</strong>
+  <%= @marker.encrypted_password %>
+</p>
+
+<p>
+  <strong>Salt:</strong>
+  <%= @marker.salt %>
+</p>
+
+<%= link_to 'Edit', edit_marker_path(@marker) %> |
+<%= link_to 'Back', markers_path %>

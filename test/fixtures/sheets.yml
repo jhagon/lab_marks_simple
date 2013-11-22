@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  student_id: 1
+  experiment_id: 1
+  marker_id: 1
+  comments: MyText
+  raw_mark: 1
+
+two:
+  student_id: 1
+  experiment_id: 1
+  marker_id: 1
+  comments: MyText
+  raw_mark: 1

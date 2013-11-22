@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  first: MyString
+  last: MyString
+  email: MyString
+  abbr: MyString
+  scaling: 1.5
+  shift: 1.5
+  admin: false
+  encrypted_password: MyString
+  salt: MyString
+
+two:
+  first: MyString
+  last: MyString
+  email: MyString
+  abbr: MyString
+  scaling: 1.5
+  shift: 1.5
+  admin: false
+  encrypted_password: MyString
+  salt: MyString

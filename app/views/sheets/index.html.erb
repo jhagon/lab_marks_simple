@@ -1,0 +1,35 @@
+<h1>Listing sheets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Experiment</th>
+      <th>Marker</th>
+      <th>Comments</th>
+      <th>Raw mark</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sheets.each do |sheet| %>
+      <tr>
+        <td><%= sheet.student_id %></td>
+        <td><%= sheet.experiment_id %></td>
+        <td><%= sheet.marker_id %></td>
+        <td><%= sheet.comments %></td>
+        <td><%= sheet.raw_mark %></td>
+        <td><%= link_to 'Show', sheet %></td>
+        <td><%= link_to 'Edit', edit_sheet_path(sheet) %></td>
+        <td><%= link_to 'Destroy', sheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sheet', new_sheet_path %>
