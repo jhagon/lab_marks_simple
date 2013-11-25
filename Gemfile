@@ -12,6 +12,21 @@ gem 'sass-rails', '~> 4.0.0'
 # Use therubyracer as js runtime.
 gem 'therubyracer'
 
+# Use old style protected attributes.
+gem 'protected_attributes'
+
+# Use some older error routines ('error_messages')
+gem 'dynamic_form'
+
+# Use will_paginate to paginate index pages.
+gem 'will_paginate', '~> 3.0'
+
+# Use bootstrap-sass for improved CSS structure and appearance
+gem 'bootstrap-sass'
+
+# Model annotation
+gem 'annotate'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 

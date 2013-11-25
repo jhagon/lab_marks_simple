@@ -25,8 +25,11 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    annotate (2.4.0)
     arel (4.0.1)
     atomic (1.1.14)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     builder (3.1.4)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -35,6 +38,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     execjs (2.0.2)
     hike (1.2.3)
@@ -54,6 +58,8 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     polyglot (0.3.3)
+    protected_attributes (1.0.3)
+      activemodel (>= 4.0.0, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -108,14 +114,19 @@ GEM
     uglifier (2.3.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    will_paginate (3.0.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
+  bootstrap-sass
   coffee-rails (~> 4.0.0)
+  dynamic_form
   jbuilder (~> 1.2)
   jquery-rails
+  protected_attributes
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc
@@ -123,3 +134,4 @@ DEPENDENCIES
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)
+  will_paginate (~> 3.0)
