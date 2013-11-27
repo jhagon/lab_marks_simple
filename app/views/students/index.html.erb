@@ -1,33 +1,31 @@
-<h1>Listing students</h1>
-
-<table>
-  <thead>
+<h1>Students</h1>
+<%= will_paginate @students %>
+<table class="table table-striped table-condensed table-hover">
+  <tr>
+    <th>Number</th>
+    <th>First</th>
+    <th><%= sortable "last", "Last" %></th>
+    <th>Email</th>
+    <th colspan="3">Actions</th>
+  </tr>
+  <% for student in @students %>
     <tr>
-      <th>Number</th>
-      <th>First</th>
-      <th>Last</th>
-      <th>Email</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <td><%= student.number %></td>
+      <td><%= student.first %></td>
+      <td><%= student.last %></td>
+      <td><%= student.email %></td>
+      <td style="vertical-align:middle;">
+              <%= link_to "Show", student, 
+              :class => "btn btn-success btn-xs"%></td>
+      <td><%= link_to "Edit", edit_student_path(student),
+              :class => "btn btn-warning btn-xs"%></td>
+      <td><%= link_to "Destroy", student, :confirm => 'Are you sure?', 
+              :class => "btn btn-danger btn-xs",
+              :method => :delete %></td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @students.each do |student| %>
-      <tr>
-        <td><%= student.number %></td>
-        <td><%= student.first %></td>
-        <td><%= student.last %></td>
-        <td><%= student.email %></td>
-        <td><%= link_to 'Show', student %></td>
-        <td><%= link_to 'Edit', edit_student_path(student) %></td>
-        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
 
-<br>
-
-<%= link_to 'New Student', new_student_path %>
+<p><%= link_to "New Student", new_student_path,
+       :class => "btn btn-primary btn-xs"%>
+</p>

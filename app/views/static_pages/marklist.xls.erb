@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Student</Data></Cell>
+        <Cell><Data ss:Type="String">Number</Data></Cell>
+        <% for exp in @experiments %>
+          <Cell><Data ss:Type="String"><%= exp.title %></Data></Cell>
+          <Cell><Data ss:Type="String">Mkr</Data></Cell>
+        <% end %>
+        <Cell><Data ss:Type="String">Average</Data></Cell>
+      </Row>
+    <% for student in Student.all(:order => "last ASC") %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= "#{student.last},#{student.first}" %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= "#{student.number}" %></Data></Cell>
+        <% average_mark = 0 %>
+      <% divisor = 0 %>
+      <% for exp in @experiments %>
+        <% sheet = student.sheets.find_by experiment_id: exp.id %>
+        <% if sheet.nil? %>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <% else %>
+        <% divisor = divisor + 1 %>
+          <% average_mark = average_mark + sheet.return_mark %>
+          <Cell><Data ss:Type="Number"><%= sheet.return_mark %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= sheet.marker.abbr %></Data></Cell>
+        <% end %>
+      <% end %>
+        <% if divisor == 0 %>
+          <Cell><Data ss:Type="String"></Data></Cell>
+        <% else %>
+        <Cell><Data ss:Type="Number"><%= (average_mark/divisor).round(0) %></Data></Cell>
+        <% end %>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

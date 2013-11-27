@@ -1,2 +1,111 @@
-<h1>StaticPages#help</h1>
-<p>Find me in app/views/static_pages/help.html.erb</p>
+<h1>Help</h1>
+<h3>Introduction</h3>
+<p>
+<b style="font-family:arial,helvetica,sans-serif;"><span style="color:#f00;">Lab</span><span style="color:#66f;">Marks</span></b> is a database of student marks designed
+for use in School of Chemistry Laboratories. The system was devised by
+Dr D.Fulton and implemented by Dr J.Hagon. Any queries about the system
+should be directed to either Dr Fulton or Dr Hagon.
+</p>
+<h3>Markers and Mark Sheets</h3>
+<p>
+The heart of the system consists of 4 database tables. The users
+of the system are people who mark lab reports &mdash; referred to as
+<em>markers</em>.  There are two types of marker: those with administrative
+priviliges and those without:
+<dd>
+<dt>Administrative Markers</dt>
+<dd>
+are able to add new markers to the database, moderate marks, view and edit
+mark sheets belonging to any marker and update marker details. 
+They can also add or edit experiments and update or change marker passwords. 
+Additionally, they can look at statistics to aid in moderation of marks.
+</dd>
+<dt>Regular Markers</dt>
+<dd>
+are able only to view and edit mark sheets that they have created.
+</dd>
+</dl>
+</p>
+<h3>Regular Marker Environment</h3>
+<img style= "border:solid black 1pt;float:right;margin:5px;" src="/assets/marker_profile_page.png" />
+<p>
+On signing-in, a regular marker will see her profile page. 
+She will also notice that the top menu changes to display her name. There
+is also an additional drop-down menu item called <em>Account</em>.
+Clicking this produces a drop-down menu with a <em>Sign Out</em>
+ button which the marker uses to sign out.
+</p>
+<p>
+The profile page consists
+of a paginated list of marked sheets. The total number of marked sheets for
+this marker is given near the top of the profile page. Notice that sheets
+can be displayed and edited, but not deleted. Only an administrative marker
+can delete a mark sheet once it has been created.
+</p>
+<p>
+The order in which the mark sheets are listed can be manipulated by the
+marker by clicking the header tag of the column she wants to sort by.
+Not all columns are sortable, those that are are coloured blue. Repeated
+clicking on the same column will toggle the sorting order between
+ascending and descending.
+</p>
+<h3>The Mark Sheet</h3>
+<img style= "border:solid black 1pt;float:right;margin:5px;" src="/assets/marker_create_sheet_page.png" />
+<p>
+The fundamental marking unit is the <em>mark sheet</em>.
+When a student completes a particular experiment, her report is
+submitted to a marker. After reading the report,
+the marker creates a mark sheet by clicking the <em>Create New Mark Sheet</em>
+button near the bottom-left of the marker's profile page.
+This produces a mark sheet creation form which the marker can then fill in.
+The form contains the following fields:
+<dl>
+<dt>
+Student Name
+</dt>
+<dd>
+The name of the student is selected from a drop-down list.
+</dd>
+<dt>
+Experiment Title
+</dt>
+<dd>
+The title of the experiment selected from a drop-down list.
+A check is made to ensure that no mark sheet exists with the same
+student/experiment combination &mdash; a student cannot do the same
+experiment twice!
+</dd>
+<dt>
+Marker
+</td>
+<dd>
+The name of the marker is automatically selected and cannot be changed
+except by an administrator.
+</dd>
+<dt>
+Comments
+</dt>
+<dd>
+General comments about the student's performance can be written here.
+</dd>
+<dt>
+Marks Breakdown
+</dt>
+<dd>
+In this section, the marker enters the marks (on a scale of 0&ndash;5)
+for each of 4 criteria. The marks must be integers and, to ensure this, are
+selected from a drop-down list in each category.
+</dd>
+</dl>
+</p>
+<p>
+Mark sheets can be edited at any time by markers by simple clicking
+the <em>Edit</em> button next to the relevant mark sheet. 
+This produces an almost identical form to that for creating a mark sheet
+except that the form is filled-in with the existing values for each field.
+The only field that they 
+cannot change in the edit form is the marker field itself. 
+Whenever a mark sheet is updated,
+a record is kept of the time of the last update. Markers can sort their
+mark sheets according to the time of last update if required.
+</p>

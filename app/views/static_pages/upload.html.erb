@@ -1,2 +1,48 @@
-<h1>StaticPages#upload</h1>
-<p>Find me in app/views/static_pages/upload.html.erb</p>
+<h1>Data Upload</h1>
+<p>
+This page provides links which allow you to do bulk student data uploads
+from a CSV spreadsheet file.
+The CSV file must have the following column labels (in lower case)
+with the appropriate data in each column:
+<ul class="inline">
+  <li>email</li>
+  <li>first</li>
+  <li>last</li>
+  <li>number</li>
+</ul>
+This is broadly in line with the CSV output from the <em>NuContacts</em>
+system but you must change the column names:
+<ul class="inline">
+  <li>Email</li>
+  <li>ForeName</li>
+  <li>Surname</li>
+  <li>Campus Id</li>
+</ul>
+ to those mentioned earlier.
+<em>NuContacts</em> provides more data than 
+<b style="font-family:san-serif;"><span style="color:#f00;">Lab</span><span style="color:#66f;">Marks</span></b> requires, but you can leave the extra columns
+in place. The upload procedure will process only those columns in the
+list above. Below an example of a CSV file with the appropriate column names
+and some extra ones that are not used:
+</p>
+<pre>
+email,first,last,code,year,number,ucas
+l.allen3@newcastle.ac.uk,Lewis,Allen,F100,1,b2026536  ,120265369
+c.e.anderson@newcastle.ac.uk,Charles Edward,Anderson,F100,1,b2022793  ,120227932
+j.austin@newcastle.ac.uk,Joseph George,Austin,F100,2,b2032896  ,120328963
+...
+...
+</pre>
+
+
+Simply use the browse button to select a file and then click the
+<b>Import</b> button.
+</p>
+<p>
+<%= form_tag import_students_path, multipart: true do %>
+  <%= file_field_tag :file %>
+</p>
+<p>
+  <%= submit_tag "Import", :class => "btn btn-primary btn-xs" %>
+</p>
+<% end %>

@@ -1,74 +1,83 @@
 class SheetsController < ApplicationController
-  before_action :set_sheet, only: [:show, :edit, :update, :destroy]
 
-  # GET /sheets
-  # GET /sheets.json
+  before_filter :authenticate, :only => [:destroy, :index]
+  before_filter :correct_marker, :only => [:edit, :show]
+  helper_method :sort_column, :sort_direction
+
   def index
-    @sheets = Sheet.all
+    @sheets = Sheet.paginate(:page => params[:page]).all( :joins => [:experiment, :student],
+                         :order => "#{sort_column} #{sort_direction}")
+    @title = "List Mark Sheets"
   end
 
-  # GET /sheets/1
-  # GET /sheets/1.json
   def show
+    @sheet = Sheet.find(params[:id])
+    @returned_mark = @sheet.raw_mark * @sheet.marker.scaling 
+                      + @sheet.marker.shift
+    @returned_mark = @returned_mark.to_int
+    @returned_mark = @returned_mark > 100 ? 100 : @returned_mark
+    @title = "Show Mark Sheet"
   end
 
-  # GET /sheets/new
   def new
     @sheet = Sheet.new
+    @title = "New Mark Sheet"
   end
 
-  # GET /sheets/1/edit
-  def edit
-  end
-
-  # POST /sheets
-  # POST /sheets.json
   def create
-    @sheet = Sheet.new(sheet_params)
-
-    respond_to do |format|
-      if @sheet.save
-        format.html { redirect_to @sheet, notice: 'Sheet was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @sheet }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @sheet.errors, status: :unprocessable_entity }
-      end
+    @sheet = Sheet.new(params[:sheet])
+    unless is_admin?
+      @sheet.marker_id = current_marker.id
+    end
+    if @sheet.save
+      redirect_to @sheet, :notice => "Successfully created sheet."
+    else
+      render :action => 'new'
     end
   end
 
-  # PATCH/PUT /sheets/1
-  # PATCH/PUT /sheets/1.json
+  def edit
+    @sheet = Sheet.find(params[:id])
+    @title = "Edit Mark Sheet"
+  end
+
   def update
-    respond_to do |format|
-      if @sheet.update(sheet_params)
-        format.html { redirect_to @sheet, notice: 'Sheet was successfully updated.' }
-        format.json { head :no_content }
+    @sheet = Sheet.find(params[:id])
+    if @sheet.update_attributes(params[:sheet])
+      redirect_to @sheet, :notice  => "Successfully updated sheet."
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @sheet = Sheet.find(params[:id])
+    @sheet.destroy
+    redirect_to :back, :notice => "Successfully destroyed sheet."
+  end
+
+private
+
+  def authenticate
+    deny_access unless signed_in? && is_admin?
+  end
+
+  def sort_column
+    cols = Sheet.column_names + Experiment.column_names + Student.column_names
+    cols.include?(params[:sort]) ? params[:sort] : "last"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
+  def correct_marker
+      if current_marker.nil?
+        deny_access
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @sheet.errors, status: :unprocessable_entity }
+        @sheet = current_marker.sheets.find_by(id: params[:id])
+        deny_access unless is_admin?  || !@sheet.nil?
       end
     end
-  end
 
-  # DELETE /sheets/1
-  # DELETE /sheets/1.json
-  def destroy
-    @sheet.destroy
-    respond_to do |format|
-      format.html { redirect_to sheets_url }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sheet
-      @sheet = Sheet.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def sheet_params
-      params.require(:sheet).permit(:student_id, :experiment_id, :marker_id, :comments, :raw_mark)
-    end
 end

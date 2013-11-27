@@ -1,0 +1,74 @@
+<%= form_for(@sheet, :html => {:class => "form-horizontal" }) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <fieldset>
+  <legend>Edit Mark Sheet <%= @sheet.id %></legend>
+  <div style="width:"400px">
+  <table class="table table-compact">
+    <tr style="background:#eef;">
+      <td>
+        <div class="control-group">
+        <%= f.label :student_id, class: "control-label" %>
+        <div class="controls">
+        <%= collection_select(:sheet, :student_id, Student.order('last ASC').all, :id, :name) %>
+        </div>
+        </div>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="control-group">
+        <%= f.label :experiment_id, class: "control-label" %>
+        <div class="controls">
+        <%= collection_select(:sheet, :experiment_id, Experiment.all, :id, :title) %>
+        </div>
+        </div>
+      </td>
+      <td>
+        <% if is_admin? %>
+        <div class="control-group">
+        <%= f.label :marker_id, class: "control-label" %>
+        <div class="controls">
+        <%= collection_select(:sheet, :marker_id, Marker.all, :id, :name,
+    {:selected => @sheet.marker_id}) %>
+        </div>
+        </div>
+        <% else %>
+        <div class="control-group">
+        <%= f.label :marker_id, class: "control-label" %>
+        <div class="controls">
+        <%= collection_select(:sheet, :marker_id, Marker.all, :id, :name,
+    {:selected => @sheet.marker_id}, :disabled => true) %>
+        </div>
+        </div>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <div style="float:right;width:600px;">
+    <%= f.label "Mark" %>
+    <table class="table-compact">
+      <tr>
+        <td> <%= @sheet.raw_mark %></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <p>
+    <div class="control-group">
+    <%= f.label :comments, class: "control-label" %>
+    <div class="controls">
+    <%= f.text_area :comments, :size => "40x6" %>
+    </div>
+    </div>
+  </p>
+    <div class="form-actions">
+    <%= f.submit class: "btn btn-warning btn-xs" %>
+    </div>
+</fieldset>
+
+<% end %>

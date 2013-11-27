@@ -1,24 +1,68 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <strong>Number:</strong>
-  <%= @student.number %>
-</p>
-
-<p>
-  <strong>First:</strong>
-  <%= @student.first %>
-</p>
-
-<p>
-  <strong>Last:</strong>
-  <%= @student.last %>
-</p>
-
-<p>
+  <strong>Name:</strong>
+  <%= "#{@student.last},#{@student.first}" %>&nbsp;&nbsp;&nbsp;
   <strong>Email:</strong>
   <%= @student.email %>
+  <strong>Number:</strong>
+  <%= @student.number %>&nbsp;&nbsp;&nbsp;
 </p>
 
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
+<% unless @sheets.empty? %>
+
+<h3>Completed Experiments (<%= "#{@sheets.size}/#{Experiment.all.size}" %>)</h3>
+<%= will_paginate @sheets %>
+<table class="table table-striped pretty">
+  <tr>
+    <th>Marker</th>
+    <th>Experiment</th>
+    <th><%= sortable "updated_at", "Updated" %></th>
+    <th>Total</th>
+    <th>Ret(%)</th>
+    <th colspan="3">Actions</th>
+  </tr>
+  <% for sheet in @sheets %>
+    <tr>
+      <td><%= truncate("#{sheet.marker.last},#{sheet.marker.first}",
+              length: 20, separator: ' ')%></td>
+      <td><%= sheet.experiment.title %></td>
+      <td><%= sheet.updated_at %></td>
+      <td style="text-align:center;"><%= sheet.raw_mark %></td>
+      <td style="text-align:center;"><%= (sheet.return_mark).to_i %></td>
+      <td><%= link_to "Show", sheet,
+              :class => 'btn btn-success btn-xs' %></td>
+      <td><%= link_to "Edit", edit_sheet_path(sheet),
+              :class => 'btn btn-warning btn-xs' %></td>
+      </td>
+      <td><% if is_admin? %>
+        <%= link_to "Destroy", sheet,
+            :confirm => 'Are you sure?',
+            :method => :delete, :class => 'btn btn-danger btn-xs' %>
+      <% end %>
+      </td>
+
+    </tr>
+  <% end %>
+</table>
+
+<% end %>
+
+  <hr>
+
+   <p>
+    <ul class="inline">
+    <li><%= link_to "Edit", edit_student_path(@student),
+        class: "btn btn-warning btn-xs" %> </li>
+    <% if is_admin? %>
+      <li><%= link_to "Destroy", @student,
+          :confirm => 'Are you sure?',
+          :method => :delete, class: "btn btn-danger btn-xs" %> </li>
+      <li><%= link_to "View All", students_path,
+          class: "btn btn-primary btn-xs" %></li>
+    <% end %>
+    <li><%= link_to "Back", :back,
+        class: "btn btn-primary btn-xs" %> </li>
+    </ul>
+    </p>
+
+
+

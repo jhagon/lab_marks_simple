@@ -1,6 +1,3 @@
-class Experiment < ActiveRecord::Base
-end
-
 # == Schema Information
 #
 # Table name: experiments
@@ -12,3 +9,6 @@ end
 #  updated_at  :datetime
 #
 
+class Experiment < ActiveRecord::Base
+  attr_accessible :title, :description
+end

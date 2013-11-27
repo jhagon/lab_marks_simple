@@ -1,74 +1,80 @@
 class MarkersController < ApplicationController
-  before_action :set_marker, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, :only => [:edit, :update, :new, :destroy, :index]
+  before_filter :correct_marker, :only => [:show]
+  helper_method :sort_column, :sort_direction
 
-  # GET /markers
-  # GET /markers.json
   def index
-    @markers = Marker.all
+    @title = "List Markers"
+    @markers = Marker.order("last ASC")
   end
 
-  # GET /markers/1
-  # GET /markers/1.json
+
   def show
+    @title = "Show Marker"
+    @marker = Marker.find(params[:id])
+    @sheets = @marker.sheets.paginate(:page => params[:page],
+             :per_page => 10).all( 
+             :joins => [:experiment, :student],
+             :order => "#{sort_column} #{sort_direction}")
+
   end
 
-  # GET /markers/new
   def new
+    @title = "New Marker"
     @marker = Marker.new
   end
 
-  # GET /markers/1/edit
-  def edit
-  end
-
-  # POST /markers
-  # POST /markers.json
   def create
-    @marker = Marker.new(marker_params)
-
-    respond_to do |format|
-      if @marker.save
-        format.html { redirect_to @marker, notice: 'Marker was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @marker }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @marker.errors, status: :unprocessable_entity }
-      end
+    @marker = Marker.new(params[:marker])
+    if @marker.save
+      # handle a successful save 
+      redirect_to markers_path, :notice => "Successfully created marker."
+    else
+      @title = "New Marker"
+      render 'new'
     end
   end
 
-  # PATCH/PUT /markers/1
-  # PATCH/PUT /markers/1.json
+  def edit
+    @title = "Edit Marker"
+    @marker = Marker.find(params[:id])
+  end
+
   def update
-    respond_to do |format|
-      if @marker.update(marker_params)
-        format.html { redirect_to @marker, notice: 'Marker was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @marker.errors, status: :unprocessable_entity }
-      end
+    @marker = Marker.find(params[:id])
+    if @marker.update_attributes(params[:marker])
+#      redirect_to @marker, :notice  => "Successfully updated marker."
+      redirect_to :back, :notice  => "Successfully updated marker."
+    else
+      render :action => 'edit'
     end
   end
 
-  # DELETE /markers/1
-  # DELETE /markers/1.json
+
   def destroy
+    @marker = Marker.find(params[:id])
     @marker.destroy
-    respond_to do |format|
-      format.html { redirect_to markers_url }
-      format.json { head :no_content }
-    end
+    redirect_to markers_url, :notice => "Successfully destroyed marker."
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_marker
-      @marker = Marker.find(params[:id])
-    end
+private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def marker_params
-      params.require(:marker).permit(:first, :last, :email, :abbr, :scaling, :shift, :admin, :encrypted_password, :salt)
-    end
+  def authenticate
+    deny_access unless signed_in? && is_admin?
+  end
+
+  def correct_marker
+    @marker = Marker.find(params[:id])
+    redirect_to(root_path) unless ( current_marker?(@marker) || is_admin? )
+  end
+
+  def sort_column
+    cols = Sheet.column_names + Experiment.column_names + Student.column_names
+    cols.include?(params[:sort]) ? params[:sort] : "last"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 end

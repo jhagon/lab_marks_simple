@@ -1,49 +1,52 @@
-<p id="notice"><%= notice %></p>
-
+<h3><%= "#{@marker.first} #{@marker.last}" %></h3>
 <p>
-  <strong>First:</strong>
-  <%= @marker.first %>
-</p>
+    <b>EMail: </b><%= @marker.email %>
+    &nbsp;&nbsp;&nbsp;
+    <b>Abbreviation: </b><%= @marker.abbr %>
+    &nbsp;&nbsp;&nbsp;
 
-<p>
-  <strong>Last:</strong>
-  <%= @marker.last %>
-</p>
+<% if @sheets.empty? %>
+  You have not yet created any mark sheets.
 
-<p>
-  <strong>Email:</strong>
-  <%= @marker.email %>
-</p>
+<% else %>
 
-<p>
-  <strong>Abbr:</strong>
-  <%= @marker.abbr %>
+<b>Completed mark sheets: </b><%=@marker.sheets.size%>
 </p>
+<%= will_paginate @sheets %>
+<table class="table table-condensed table-striped table-hover table-responsive">
+  <tr>
+    <th><%= sortable "last", "Student" %></th>
+    <th><%= sortable "title", "Experiment" %></th>
+    <th><%= sortable "updated_at", "Updated" %></th>
+    <th>Total</th>
+    <th>Ret(%)</th>
+    <th colspan="3">Actions</th>
+  </tr>
+  <% for sheet in @sheets %>
+    <tr>
+      <td><%= truncate("#{sheet.student.last},#{sheet.student.first}",
+              length: 20, separator: ' ')%></td>
+      <td><%= sheet.experiment.title %></td>
+      <td><%= sheet.updated_at %></td>
+      <td style="text-align:center;"><%= sheet.raw_mark %></td>
+      <td style="text-align:center;"><%= (sheet.return_mark).to_i %></td>
+      <td><%= link_to "Show", sheet,
+              :class => 'btn btn-success btn-xs' %></td>
+      <td><%= link_to "Edit", edit_sheet_path(sheet),
+              :class => 'btn btn-warning btn-xs' %></td>
+      </td>
+      <td><% if is_admin? %>
+        <%= link_to "Destroy", sheet, 
+            :confirm => 'Are you sure?', 
+            :method => :delete, :class => 'btn btn-danger btn-xs' %>
+      <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
 
-<p>
-  <strong>Scaling:</strong>
-  <%= @marker.scaling %>
-</p>
+<% end %>
 
-<p>
-  <strong>Shift:</strong>
-  <%= @marker.shift %>
-</p>
+<p><%= link_to "Create New Mark Sheet", new_sheet_path,
+               :class => 'btn btn-primary btn-xs' %></p>
 
-<p>
-  <strong>Admin:</strong>
-  <%= @marker.admin %>
-</p>
-
-<p>
-  <strong>Encrypted password:</strong>
-  <%= @marker.encrypted_password %>
-</p>
-
-<p>
-  <strong>Salt:</strong>
-  <%= @marker.salt %>
-</p>
-
-<%= link_to 'Edit', edit_marker_path(@marker) %> |
-<%= link_to 'Back', markers_path %>

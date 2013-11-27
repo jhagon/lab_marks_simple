@@ -1,0 +1,78 @@
+<h1>Statistics</h1>
+<p>
+below is the average mark matrix across all markers and experiments.
+</p>
+<table class="table table-striped">
+  <tr>
+    <th style="border-bottom:solid black 1pt;">Marker</th>
+    <th style="border-bottom:solid black 1pt;">Scaling</th>
+    <th style="border-bottom:solid black 1pt;">Shift</th>
+
+    <% for experiment in @experiments %>
+
+    <th style="text-align:right;border-bottom:solid black 1pt;"><%=experiment.title %></th>
+    <% end %>
+    <th style="text-align:right;border-bottom:solid black 1pt;">MrkAv</th>
+  </tr>
+  <% for marker in @markers %>
+
+    <% unless marker_average(marker.id).nil? %>
+
+      <tr>
+        <td><%= "#{marker.last},#{marker.first}" %></td>
+        <td>
+        <%= form_for(marker, :html => { :class => "form-horizontal" }) do |f| %>
+        <%= f.error_messages %>
+        <div class="control-group">
+        <div class="control">
+        <%= f.text_field :scaling, :class => "span1" %>
+        <%= f.submit "Update", class: "btn btn-primary btn-xs" %>
+        </div>
+        </div>
+        <% end %>
+        </td>
+
+        <td>
+        <%= form_for(marker, :html => { :class => "form-horizontal" }) do |f| %>
+        <%= f.error_messages %>
+        <div class="control-group">
+        <div class="control">
+        <%= f.text_field :shift, :class => "span1" %>
+        <%= f.submit "Update", class: "btn btn-primary btn-xs" %>
+        </div>
+        </div>
+        <% end %>
+        </td>
+
+
+
+      <% for experiment in @experiments %>
+        <td style="text-align:right"><%= number_with_precision(
+                marker_experiment_average(marker.id, experiment.id),
+                :precision => 2) %></td>
+      <% end %>
+        <td style="text-align:right"><%= number_with_precision(
+                marker_average(marker.id),
+                :precision => 2) %></td>
+
+      </tr>
+
+    <% end %>
+  <% end %>
+  <tr>
+    <td style="border-top:solid black 1pt;">
+    </td>
+    <td style="border-top:solid black 1pt;">
+    </td>
+    <td style="border-top:solid black 1pt;">
+    </td>
+  <% for experiment in @experiments %>
+    <td style="text-align:right;border-top:solid black 1pt;"><%= number_with_precision(
+              experiment_average(experiment.id),
+              :precision => 2) %></td>
+  <% end %>
+  <td style="text-align:right;border-top:solid black 1pt;">
+    <%= number_with_precision(@average, :precision => 2) %>
+  <td>
+  </tr>
+</table>

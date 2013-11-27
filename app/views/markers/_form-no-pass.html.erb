@@ -1,0 +1,40 @@
+<%= form_for @marker do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :first, "First Name(s)" %><br />
+    <%= f.text_field :first %>
+  </p>
+  <p>
+    <%= f.label :last, "Last Name" %><br />
+    <%= f.text_field :last %>
+  </p>
+  <p>
+    <%= f.label :email, "Email" %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :abbr, "Abbreviation" %><br />
+    <%= f.text_field :abbr %>
+  </p>
+  <p>
+    <%= f.label :scaling, "Scaling Factor" %><br />
+    <%= f.text_field :scaling %>
+  </p>
+  <p>
+    <%= f.label :shift, "Shift Value" %><br />
+    <%= f.text_field :shift %>
+  </p>
+  <p>
+  <%= f.check_box :admin %><%= f.label(:admin, "Administrator?") %>
+  </p>
+  <p>
+    <%= f.label :password, "Password" %><br />
+    <%= f.password_field :password %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation, "Password Confirmation" %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+
+  <p><%= f.submit %></p>
+<% end %>

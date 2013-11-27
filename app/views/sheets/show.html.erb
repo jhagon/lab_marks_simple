@@ -1,29 +1,67 @@
-<p id="notice"><%= notice %></p>
+  <div style="width:"400px;">
+  <p style="font-size:small;">
+  Marksheet #<%= @sheet.id %> 
+  <%= @sheet.created_at.nil? ? 
+      "<span style='color:red;'>Creation date not available!</span>".html_safe :
+      "Created at: #{@sheet.created_at}" %>;
+  <%= @sheet.updated_at.nil? ? 
+      "<span style='color:red;'>Last modification date not available!</span>".html_safe : 
+      "Last modified at: #{@sheet.updated_at}" %>.
+  </p>
+  </div>
+  <table class="table">
+    <tr style="background:#eef;">
+      <td>
+        <b>Student:</b> 
+        <%= "#{@sheet.student.first} #{@sheet.student.last}" %>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Experiment:</b> 
+        <%= @sheet.experiment.title %>
+      </td>
+      <td>
+        <b>Marker:</b> 
+        <%= "#{@sheet.marker.first} #{@sheet.marker.last}" %>
+      </td>
+    </tr>
+  </table>
 
-<p>
-  <strong>Student:</strong>
-  <%= @sheet.student_id %>
-</p>
-
-<p>
-  <strong>Experiment:</strong>
-  <%= @sheet.experiment_id %>
-</p>
-
-<p>
-  <strong>Marker:</strong>
-  <%= @sheet.marker_id %>
-</p>
-
-<p>
-  <strong>Comments:</strong>
-  <%= @sheet.comments %>
-</p>
-
-<p>
-  <strong>Raw mark:</strong>
-  <%= @sheet.raw_mark %>
-</p>
-
-<%= link_to 'Edit', edit_sheet_path(@sheet) %> |
-<%= link_to 'Back', sheets_path %>
+  <div style="width:40%;float:right">
+    <b>Marks Breakdown</b><br />
+    <table class="table-condensed">
+      <tr class="border-top-thin">
+        <td> Raw Mark</td>
+        <td style="text-align:right;"> <%= @sheet.raw_mark %> </td>
+      </tr>
+      <tr class="border-top-thick">
+        <td> Returned Mark (%)</td>
+        <td style="text-align:right;"> <b><%= @sheet.return_mark.round(0) %></b> </td>
+      </tr>
+    </table>
+  </div>
+  <div style="width:50%;">
+    <b>Comments</b></br>
+    <div style="height:12em;border:1px solid black;">
+      <%= @sheet.comments %>
+    </div>
+  </div>
+  <hr/>
+    <p>
+    <ul class="inline">
+    <li><%= link_to "Edit", edit_sheet_path(@sheet),
+        class: "btn btn-warning btn-xs" %> </li>
+    <li><%= link_to "Create", new_sheet_path(@sheet),
+        class: "btn btn-warning btn-xs" %> </li>
+    <% if is_admin? %>
+      <li><%= link_to "View All", current_marker,
+          class: "btn btn-primary btn-xs" %></li>
+    <% end %>
+    <li><%= link_to "Back", :back,
+        class: "btn btn-primary btn-xs" %> </li>
+    </ul>
+    </p>
+</div>

@@ -1,0 +1,28 @@
+<h1>Sign In</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+
+<%= form_for(:session, :url => sessions_path) do |f| %>
+  <fieldset>
+    <div class="control-group">
+    <%= f.label :email, class: "control-label" %><br/>
+    <div class="controls">
+    <%= f.text_field :email %>
+    </div>
+    </div>
+    <div class="control-group">
+    <%= f.label :password, class: "control-label"%><br/>
+    <div class="controls">
+    <%= f.password_field :password %>
+    </div>
+    </div>
+    <div class="controls">
+    <%= f.submit "Sign In", class: "btn btn-large btn-primary" %>
+    </div>
+  </fieldset>
+
+</div>
+</div>
+
+<% end %>

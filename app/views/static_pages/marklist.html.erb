@@ -1,2 +1,45 @@
-<h1>StaticPages#marklist</h1>
-<p>Find me in app/views/static_pages/marklist.html.erb</p>
+<h1>Student Mark List</h1>
+<p style="float:right;">
+<%= link_to "Save to Excel",
+    marklist_path(format: "xls"), :class => 'btn btn-primary btn-xs' %></p>
+<%= will_paginate @students %>
+<table class="table table-condensed table-striped">
+  <tr>
+    <th style="border-bottom:solid black 1pt;">Student</th>
+    <th style="border-bottom:solid black 1pt;">Number</th>
+    <% for exp in @experiments %>
+      <th style="border-bottom:solid black 1pt;text-align:right"><%=exp.title%></th>
+    <% end %>
+    <th style="border-bottom:solid black 1pt;text-align:right">
+    Average
+    </th>
+  </tr>
+
+  <% for student in @students %>
+
+    <tr>
+      <td><%= link_to "#{student.last},#{student.first}", student %></td>
+      <td><%= "#{student.number}" %></td>
+      <% average_mark = 0 %>
+      <% divisor = @experiments.size %>
+      <% for exp in @experiments %>
+        <% sheet = student.sheets.find_by experiment_id: exp.id %>
+        <% if sheet.nil? %>
+          <td></td>
+        <% else %>
+          <% average_mark = average_mark + sheet.return_mark %>
+          <td style="text-align:right"><%= sheet.return_mark.round(0) %></td>
+        <% end %> 
+      <% end %>          
+      <% average_mark = average_mark/divisor %>
+      <td style="text-align:right"><%= average_mark.round(0) %></td>
+
+      </tr>
+
+  <% end %>
+</table>
+
+<p>
+  <%= link_to "Back", :back,
+  class: "btn btn-primary btn-xs" %>
+</p>

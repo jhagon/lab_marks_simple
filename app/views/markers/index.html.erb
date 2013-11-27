@@ -1,43 +1,35 @@
-<h1>Listing markers</h1>
-
-<table>
-  <thead>
+<h1>Markers</h1>
+<table class="table table-condensed table-striped">
+  <tr>
+    <th>Abbr</th>
+    <th>Name</th>
+    <th># Sheets</th>
+    <th>Email</th>
+    <th>Scaling</th>
+    <th>Shift</th>
+    <th>Admin</th>
+    <th colspan="3">Actions</th>
+  </tr>
+  <% for marker in @markers %>
     <tr>
-      <th>First</th>
-      <th>Last</th>
-      <th>Email</th>
-      <th>Abbr</th>
-      <th>Scaling</th>
-      <th>Shift</th>
-      <th>Admin</th>
-      <th>Encrypted password</th>
-      <th>Salt</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <td><%= marker.abbr %></td>
+      <td><%= "#{marker.last},#{marker.first}" %></td>
+      <td><%= marker.sheets.count %></td>
+      <td><%= marker.email %></td>
+      <td><%= marker.scaling %></td>
+      <td><%= marker.shift %></td>
+      <td><%= marker.admin ? "Yes" : "No" %></td>
+      <td><%= link_to "Show", marker,
+              :class => "btn btn-success btn-xs" %></td>
+      <td><%= link_to "Edit", edit_marker_path(marker),
+              :class => "btn btn-warning btn-xs" %></td>
+      <td><%= link_to "Destroy", marker, 
+              :confirm => 'Are you sure?', 
+              :method => :delete,
+              :class => "btn btn-danger btn-xs" %></td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @markers.each do |marker| %>
-      <tr>
-        <td><%= marker.first %></td>
-        <td><%= marker.last %></td>
-        <td><%= marker.email %></td>
-        <td><%= marker.abbr %></td>
-        <td><%= marker.scaling %></td>
-        <td><%= marker.shift %></td>
-        <td><%= marker.admin %></td>
-        <td><%= marker.encrypted_password %></td>
-        <td><%= marker.salt %></td>
-        <td><%= link_to 'Show', marker %></td>
-        <td><%= link_to 'Edit', edit_marker_path(marker) %></td>
-        <td><%= link_to 'Destroy', marker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
 
-<br>
-
-<%= link_to 'New Marker', new_marker_path %>
+<p><%= link_to "New Marker", new_marker_path,
+       :class => "btn btn-primary btn-xs" %></p>

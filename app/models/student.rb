@@ -1,6 +1,3 @@
-class Student < ActiveRecord::Base
-end
-
 # == Schema Information
 #
 # Table name: students
@@ -14,3 +11,20 @@ end
 #  updated_at :datetime
 #
 
+class Student < ActiveRecord::Base
+
+  attr_accessible :number, :first, :last, :email
+
+  has_many :sheets
+
+  def name
+    self.last + ',  ' + self.first
+  end
+
+  def self.import(file)
+    CSV.foreach(file.path, headers: true) do |row|
+      Student.create! row.to_hash
+    end
+  end
+
+end

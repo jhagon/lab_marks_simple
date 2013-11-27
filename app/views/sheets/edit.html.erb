@@ -1,6 +1,8 @@
-<h1>Editing sheet</h1>
+<%= render 'form_edit' %>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @sheet %> |
-<%= link_to 'Back', sheets_path %>
+<p>
+  <%= link_to "Show", @sheet,
+      class: "btn btn-primary btn-xs" %>
+  <%= link_to "Back", :back, 
+      class: "btn btn-primary btn-xs" %>
+</p>
