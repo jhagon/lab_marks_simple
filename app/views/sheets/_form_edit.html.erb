@@ -49,13 +49,16 @@
   </div>
 
   <div style="float:right;width:600px;">
-    <%= f.label "Mark" %>
+    <%= f.label " Raw Mark" %>
     <table class="table-compact">
       <tr>
-        <td> <%= @sheet.raw_mark %></td>
+        <td> 
+          <%= f.number_field :raw_mark %>
+        </td>
       </tr>
     </table>
   </div>
+
 
 
   <p>
