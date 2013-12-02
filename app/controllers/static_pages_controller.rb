@@ -66,7 +66,7 @@ end
     else
       scale = Marker.find(marker_id).scaling
       shift = Marker.find(marker_id).shift
-      marker_average = (scale * sum + shift)/n_sheets
+      marker_average = (scale * sum)/n_sheets + shift
     end
   end
 
@@ -80,7 +80,7 @@ end
     else
       scale = Marker.find(marker_id).scaling
       shift = Marker.find(marker_id).shift
-      marker_experiment_average = (scale * sum + shift)/n_sheets
+      marker_experiment_average = (scale * sum)/n_sheets + shift
     end
   end
 
